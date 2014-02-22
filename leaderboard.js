@@ -3,6 +3,7 @@
 
 Players = new Meteor.Collection("players");
 Moves = new Meteor.Collection("moves");
+Instruction = new Meteor.Collection("instruction");
 
 
 if (Meteor.isClient) {
@@ -55,8 +56,11 @@ if (Meteor.isServer) {
       for (var i = 0; i < names.length; i++)
         Players.insert({name: names[i], score: 0});
     }
+
+    Instruction.insert({move: 0});
+
     collectionApi = new CollectionAPI({ authToken: '97f0ad9e24ca5e0408a269748d7fe0a0' });
-    collectionApi.addCollection(Players, 'players');
+    collectionApi.addCollection(Instruction, 'instruction');
     collectionApi.start();
 
   });
@@ -65,6 +69,18 @@ if (Meteor.isServer) {
     //Moves.update
     topPlayer = Players.findOne({}, {sort: {score: -1, name: 1}})
     console.log(topPlayer);
+    if (topPlayer.name == "Backward"){
+      Instruction.update( {}, {move: 1});     
+    }
+    else if (topPlayer.name == "Forward"){
+      Instruction.update( {}, {move: 2});     
+    }
+    else if (topPlayer.name == "Turn Left"){
+      Instruction.update( {}, {move: 3});     
+    }
+    else if (topPlayer.name == "Turn Right"){
+      Instruction.update( {}, {move: 4});     
+    }
     topName = topPlayer.name
     topScore = topPlayer.score
     var currentdate = new Date(); 
