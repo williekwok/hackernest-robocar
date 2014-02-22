@@ -22,13 +22,14 @@ if (Meteor.isClient) {
 
   Template.leaderboard.events({
     'click input.inc': function () {
-      Players.update(Session.get("selected_player"), {$inc: {score: 1}});
+      //Players.update(Session.get("selected_player"), {$inc: {score: 1}});
     }
   });
 
   Template.player.events({
     'click': function () {
       Session.set("selected_player", this._id);
+      Players.update(Session.get("selected_player"), {$inc: {score: 1}});
     }
   });
 
@@ -86,5 +87,11 @@ if (Meteor.isServer) {
     var currentdate = new Date(); 
     Moves.insert({name: topName, score: topScore, date_created: Date.now(), timestamp: currentdate})
     Players.update({},{$set: {score: 0}}, {multi:true});
-  }, 10000);
+    console.log(Moves.find().count())
+    if (Moves.find().count() > 10){
+      console.log("HIII")
+      lastMove = Moves.findOne({}, {sort: {date_created: 1}})
+      Moves.remove({date_created: lastMove.date_created})
+    }
+  }, 2000);
 }

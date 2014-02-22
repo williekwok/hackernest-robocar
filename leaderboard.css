@@ -46,6 +46,7 @@ body {
     display: inline-block;
     width: 300px;
     font-size: 1.75em;
+    margin-left: 10px;
 }
 
 .player .score {
