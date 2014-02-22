@@ -1,0 +1,53 @@
+<head>
+  <title>Leaderboard</title>
+</head>
+
+<body>
+  <h1>RoboCar 1</h1>
+  <h3>Last Move: </h3>
+  <h4>{{> move}}</h4>
+  <div id="outer">
+    {{> leaderboard}}
+  </div>
+
+  <h4>Move History: </h4>
+  {{> moveList}}
+</body>
+
+<template name="leaderboard">
+  <div class="leaderboard">
+    {{#each players}}
+      {{> player}}
+    {{/each}}
+  </div>
+
+  {{#if selected_name}}
+  <div class="details">
+    <div class="name">{{selected_name}}</div>
+    <input type="button" class="inc" value="Select" />
+  </div>
+  {{else}}
+  <div class="none">Click a move to vote</div>
+  {{/if}}
+</template>
+
+<template name="player">
+  <div class="player {{selected}}">
+    <span class="name">{{name}}</span>
+    <span class="score">{{score}}</span>
+  </div>
+</template>
+
+<template name="move">
+  {{item.name}}
+  {{item.score}}
+  {{item.timestamp}}
+</template>
+
+<template name="moveList">
+ <div class="moveList">
+   {{#each moves}}
+      {{> move}}
+    {{/each}}
+  </div>
+</template>
