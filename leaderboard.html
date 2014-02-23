@@ -1,21 +1,24 @@
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
-<title>RoBoCaR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>RoBoCaR 2</title>
 </head>
 
 <body>
-  <h1>RoboCar 1</h1>
+  <h1>RoboCar 2</h1>
     
 
   <h4>Last Voted Move: </h4>
   <h2>{{> moveName}}</h2>
   <h4>{{> moveScore}} Votes</h4>
-  <h4>{{> moveTime}}</h4>
   <h4>Time Left to Vote: <strong id='timer'>{{> main}}</strong></h4>
+  <div id="progressBar">
+  {{> progress}}
+  </div>
   <div id="outer">
     {{> leaderboard}}
   </div>
-
+  <div class="details">
+  </div>
   <h4>Move History: </h4>
   {{> moveList}}
 </body>
@@ -26,12 +29,6 @@
       {{> player}}
     {{/each}}
   </div>
-
-  {{#if selected_name}}
-  <div class="details">
-  </div>
-  {{else}}
-  {{/if}}
 </template>
 
 <template name="player">
@@ -61,13 +58,22 @@
 
 
 <template name="moveList">
+  {{#if moves}}
  <div class="moveList">
    {{#each moves}}
-      {{> move}}
+      {{> move}} <br>
     {{/each}}
   </div>
+  {{else}}
+  {{/if}}
+
 </template>
 
 <template name="main">
   {{time}}
 </template>
+
+<template name="progress">
+  <div class="progressBar" style="width: {{time}}%; height: 15px; color: rgba(0, 0, 0, 0); background-color: red; transition: width 1s ease-in-out, left 1.5s ease-in-out;">{{time}}</div>
+</template>
+

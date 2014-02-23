@@ -8,21 +8,21 @@ h1 {
 h3 {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 200;
-    margin: 20px 0;
+    margin: 0px 0;
     padding: 0;
     text-align: center
 }
 h2 {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: bold;
-    margin: 20px 0;
+    margin: 10px 0;
     padding: 0;
     text-align: center
 }
 h4 {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 200;
-    margin: 20px 0;
+    margin: 5px 0;
     padding: 0;
     text-align: center
 }
@@ -30,7 +30,7 @@ h4 {
 body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 200;
-    margin: 50px 0;
+    margin: 20px 0;
     padding: 0;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -41,12 +41,23 @@ body {
 
 #outer {
     width: "100%";
-    margin: 0 auto;    
+    margin: auto;    
 }
 
+#progressBar {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #ccc;
+    -moz-transition: width 1s ease-in-out, left 1.5s ease-in-out;
+    -webkit-transition: width 1s ease-in-out, left 1.5s ease-in-out;
+    -moz-transition: width 1s ease-in-out, left 1.5s ease-in-out;
+    -o-transition: width 1s ease-in-out, left 1.5s ease-in-out;
+    transition: width 1s ease-in-out, left 1.5s ease-in-out;
+}
 .player {
     cursor: pointer;
     padding: 5px;
+    padding-left: 20px;
 }
 
 .player .name {
@@ -79,8 +90,7 @@ body {
     border-style: dashed none none none;
     border-color: #ccc;
     border-width: 4px;
-    margin: 50px 10px;
-    padding: 10px 0px;
+    padding: 2px 0px;
 }
 
 .none {
@@ -93,4 +103,6 @@ body {
 
 .moveList {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-align: center
 }
+
