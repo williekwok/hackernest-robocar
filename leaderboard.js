@@ -7,6 +7,19 @@ Instruction = new Meteor.Collection("instruction");
 
 
 if (Meteor.isClient) {
+
+  Meteor.startup(function () {
+        setInterval(function () {
+            Meteor.call("getTime", function (error, result) {
+                Session.set("time", result);
+            });
+        }, 1000);
+  });
+
+  Template.main.time = function () {
+    return Session.get("time");
+  };
+
   Template.leaderboard.players = function () {
     return Players.find({});
   };
@@ -27,13 +40,43 @@ if (Meteor.isClient) {
   });
 
   Template.player.events({
+    
     'click': function () {
-      Session.set("selected_player", this._id);
+      if( /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        //alert("im in here");
+      } else{
+        Session.set("selected_player", this._id);
+        Players.update(Session.get("selected_player"), {$inc: {score: 1}});
+      }
+    },
+    'touchend' : function () {
+       Session.set("selected_player", this._id);
       Players.update(Session.get("selected_player"), {$inc: {score: 1}});
     }
   });
 
 Template.move.helpers({
+  item: function(){ 
+    return Moves.find({}, {sort: {date_created: -1}});
+    //return Moves.findOne()
+  }
+});
+
+Template.moveName.helpers({
+  item: function(){ 
+    return Moves.findOne({}, {sort: {date_created: -1}});
+    //return Moves.findOne()
+  }
+});
+
+Template.moveScore.helpers({
+  item: function(){ 
+    return Moves.findOne({}, {sort: {date_created: -1}});
+    //return Moves.findOne()
+  }
+});
+
+Template.moveTime.helpers({
   item: function(){ 
     return Moves.findOne({}, {sort: {date_created: -1}});
     //return Moves.findOne()
@@ -58,7 +101,7 @@ if (Meteor.isServer) {
         Players.insert({name: names[i], score: 0});
     }
 
-    Instruction.insert({move: 0});
+    Instruction.insert({move: 0, go: false});
 
     collectionApi = new CollectionAPI({ authToken: '97f0ad9e24ca5e0408a269748d7fe0a0' });
     collectionApi.addCollection(Instruction, 'instruction');
@@ -67,31 +110,75 @@ if (Meteor.isServer) {
   });
   Meteor.setInterval(function(){
     //Update Latest Move
-    //Moves.update
+    //Moves.update  
+
+
     topPlayer = Players.findOne({}, {sort: {score: -1, name: 1}})
     console.log(topPlayer);
-    if (topPlayer.name == "Backward"){
-      Instruction.update( {}, {move: 1});     
+    if (topPlayer.score == 0){
+      Instruction.update( {}, {move: 0, go: true}); 
+      Meteor.setTimeout(function(){
+              Instruction.update( {}, {move: 0, go: false});     
+      }, 250);    
+    }
+    else if (topPlayer.name == "Backward"){
+      Instruction.update( {}, {move: 1, go: true});
+      Meteor.setTimeout(function(){
+              Instruction.update( {}, {move: 0, go: false});     
+      }, 250);         
     }
     else if (topPlayer.name == "Forward"){
-      Instruction.update( {}, {move: 2});     
+      Instruction.update( {}, {move: 2, go: true}); 
+      Meteor.setTimeout(function(){
+              Instruction.update( {}, {move: 0, go: false});     
+      }, 250);    
     }
     else if (topPlayer.name == "Turn Left"){
-      Instruction.update( {}, {move: 3});     
+      Instruction.update( {}, {move: 3, go: true});
+      Meteor.setTimeout(function(){
+              Instruction.update( {}, {move: 0, go: false});     
+      }, 250);     
     }
     else if (topPlayer.name == "Turn Right"){
-      Instruction.update( {}, {move: 4});     
+      Instruction.update( {}, {move: 4, go: true});
+      Meteor.setTimeout(function(){
+              Instruction.update( {}, {move: 0, go: false});     
+      }, 250);    
     }
+
     topName = topPlayer.name
+    if (topPlayer.score == 0){
+      topName = "None"
+    }
     topScore = topPlayer.score
     var currentdate = new Date(); 
     Moves.insert({name: topName, score: topScore, date_created: Date.now(), timestamp: currentdate})
     Players.update({},{$set: {score: 0}}, {multi:true});
     console.log(Moves.find().count())
+
+
     if (Moves.find().count() > 10){
       console.log("HIII")
       lastMove = Moves.findOne({}, {sort: {date_created: 1}})
       Moves.remove({date_created: lastMove.date_created})
     }
-  }, 2000);
+  }, 5000);
+
+  var clock = 4;
+  Meteor.setInterval(function () {
+      clock -= 1;
+      // end of game
+      console.log(clock);
+      if (clock === -1) {
+        // stop the clock
+        clock = 4;
+      }
+
+    }, 1000);
+
+   Meteor.methods({
+        getTime: function () {
+            return clock;
+        }
+    });
 }

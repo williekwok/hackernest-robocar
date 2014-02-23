@@ -1,21 +1,28 @@
 h1 {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 200;
-    margin: 50px 0;
+    margin: 20px 0;
     padding: 0;
     text-align: center
 }
 h3 {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 200;
-    margin: 50px 0;
+    margin: 20px 0;
+    padding: 0;
+    text-align: center
+}
+h2 {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    margin: 20px 0;
     padding: 0;
     text-align: center
 }
 h4 {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 200;
-    margin: 40px 0;
+    margin: 20px 0;
     padding: 0;
     text-align: center
 }
@@ -33,7 +40,7 @@ body {
 }
 
 #outer {
-    width: 600px;
+    width: "100%";
     margin: 0 auto;    
 }
 
@@ -44,14 +51,14 @@ body {
 
 .player .name {
     display: inline-block;
-    width: 300px;
+    width: "80%";
     font-size: 1.75em;
     margin-left: 10px;
 }
 
 .player .score {
     display: inline-block;
-    width: 100px;
+    width: "20%";
     text-align: right;
     font-size: 2em;
     font-weight: bold;

@@ -1,11 +1,17 @@
 <head>
-  <title>Leaderboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<title>RoBoCaR</title>
 </head>
 
 <body>
   <h1>RoboCar 1</h1>
-  <h3>Last Move: </h3>
-  <h4>{{> move}}</h4>
+    
+
+  <h4>Last Voted Move: </h4>
+  <h2>{{> moveName}}</h2>
+  <h4>{{> moveScore}} Votes</h4>
+  <h4>{{> moveTime}}</h4>
+  <h4>Time Left to Vote: <strong id='timer'>{{> main}}</strong></h4>
   <div id="outer">
     {{> leaderboard}}
   </div>
@@ -23,11 +29,8 @@
 
   {{#if selected_name}}
   <div class="details">
-    <div class="name">{{selected_name}}</div>
-    <input type="button" class="inc" value="Select" />
   </div>
   {{else}}
-  <div class="none">Click a move to vote</div>
   {{/if}}
 </template>
 
@@ -39,10 +42,23 @@
 </template>
 
 <template name="move">
+  {{name}}
+  {{score}}
+  {{timestamp}}
+</template>
+
+<template name="moveName">
   {{item.name}}
+</template>
+
+<template name="moveScore">
   {{item.score}}
+</template>
+
+<template name="moveTime">
   {{item.timestamp}}
 </template>
+
 
 <template name="moveList">
  <div class="moveList">
@@ -50,4 +66,8 @@
       {{> move}}
     {{/each}}
   </div>
+</template>
+
+<template name="main">
+  {{time}}
 </template>
